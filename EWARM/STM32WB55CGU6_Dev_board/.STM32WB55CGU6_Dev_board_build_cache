@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BuildDb>
+    <Tool>
+        <Name>linker</Name>
+        <Parent>
+            <Path>D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM\STM32WB55CGU6_Dev_board\Exe\STM32WB55CGU6_Dev_board.out</Path>
+            <Output>
+                <Path>D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM\STM32WB55CGU6_Dev_board\List\STM32WB55CGU6_Dev_board.map</Path>
+            </Output>
+        </Parent>
+    </Tool>
+</BuildDb>
