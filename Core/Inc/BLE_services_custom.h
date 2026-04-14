@@ -13,7 +13,7 @@ void BLE_USB_compromiss_init(void);
 void BLE_rx_data(uint8_t* data, uint32_t size);
     
     
-    
+void BLE_Send_Joystick_Test(void);
     
 
 #ifdef __cplusplus

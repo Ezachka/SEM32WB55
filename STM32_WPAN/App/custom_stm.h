@@ -37,6 +37,13 @@ typedef enum
   /* Virtual_com */
   CUSTOM_STM_TX_OUT,
   CUSTOM_STM_RX_IN,
+  /* Human_Interface_Device */
+  CUSTOM_STM_RX,
+  CUSTOM_STM_REP,
+  /* Device_information */
+  CUSTOM_STM_PNP,
+  /* Battery_settings */
+  CUSTOM_STM_BAT,
 } Custom_STM_Char_Opcode_t;
 
 typedef enum
@@ -47,6 +54,18 @@ typedef enum
   CUSTOM_STM_TX_OUT_NOTIFY_DISABLED_EVT,
   /* Receive_from_phone */
   CUSTOM_STM_RX_IN_WRITE_NO_RESP_EVT,
+  /* Report_map */
+  CUSTOM_STM_RX_READ_EVT,
+  /* Report */
+  CUSTOM_STM_REP_READ_EVT,
+  CUSTOM_STM_REP_WRITE_EVT,
+  CUSTOM_STM_REP_NOTIFY_ENABLED_EVT,
+  CUSTOM_STM_REP_NOTIFY_DISABLED_EVT,
+  /* PnP */
+  /* Battery_Level */
+  CUSTOM_STM_BAT_READ_EVT,
+  CUSTOM_STM_BAT_NOTIFY_ENABLED_EVT,
+  CUSTOM_STM_BAT_NOTIFY_DISABLED_EVT,
   CUSTOM_STM_NOTIFICATION_COMPLETE_EVT,
 
   CUSTOM_STM_BOOT_REQUEST_EVT
@@ -74,6 +93,10 @@ typedef struct
 /* Exported constants --------------------------------------------------------*/
 extern uint16_t SizeTx_Out;
 extern uint16_t SizeRx_In;
+extern uint16_t SizeRx;
+extern uint16_t SizeRep;
+extern uint16_t SizePnp;
+extern uint16_t SizeBat;
 
 /* USER CODE BEGIN EC */
 

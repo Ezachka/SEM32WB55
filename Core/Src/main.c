@@ -27,7 +27,8 @@
 
 #include "usbd_cdc_if.h"
 #include "custom_stm.h"
-      
+#include "custom_app.h"
+
 #include "BLE_services_custom.h"
 /* USER CODE END Includes */
 
@@ -54,7 +55,7 @@ RTC_HandleTypeDef hrtc;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-uint8_t test=0;
+bool test=false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -163,11 +164,11 @@ int main(void)
             systick_div_1hz = false;
             HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
             
-        //    uint8_t my_msg[] = "Hello";
-            uint8_t buffer[20];
-            int len = sprintf((char*)buffer, "Hello %c", test); // 
-//            Custom_STM_App_Update_Char_Variable_Length(CUSTOM_STM_TX, buffer, len);
-            test++;
+            
+            if(test){
+                test=false;
+                BLE_Send_Joystick_Test();
+            }
         }
         
   }

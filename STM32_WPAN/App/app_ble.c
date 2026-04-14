@@ -212,13 +212,21 @@ uint8_t index_con_int, mutex;
 /**
  * Advertising Data
  */
-uint8_t a_AdvData[4] =
-{
-  3, AD_TYPE_16_BIT_SERV_UUID_CMPLT_LIST, 0x34, 0x12,
-
-};
+//uint8_t a_AdvData[14] =
+//{
+//  3, AD_TYPE_APPEARANCE, 0x00, 0x00 /* UNKNOWN_APPEARANCE */,
+//  9, AD_TYPE_16_BIT_SERV_UUID_CMPLT_LIST, 0x34, 0x12, 0x0F, 0x18, 0x0A, 0x18, 0x12, 0x18,
+//
+//};
 
 /* USER CODE BEGIN PV */
+ ///@HID @TODO
+uint8_t a_AdvData[14] =
+{
+  3, AD_TYPE_APPEARANCE, 0x03, 0xC3 /* joy_APPEARANCE */,
+  9, AD_TYPE_16_BIT_SERV_UUID_CMPLT_LIST, 0x34, 0x12, 0x0F, 0x18, 0x0A, 0x18, 0x12, 0x18,
+
+};
 
 /* USER CODE END PV */
 
@@ -730,7 +738,7 @@ static void Ble_Hci_Gap_Gatt_Init(void)
   uint16_t a_appearance[1] = {BLE_CFG_GAP_APPEARANCE};
   tBleStatus ret = BLE_STATUS_INVALID_PARAMS;
   /* USER CODE BEGIN Ble_Hci_Gap_Gatt_Init*/
-
+aci_gap_clear_security_db(); ///@HID @TODO
   /* USER CODE END Ble_Hci_Gap_Gatt_Init*/
 
   APP_DBG_MSG("==>> Start Ble_Hci_Gap_Gatt_Init function\n");
@@ -937,18 +945,29 @@ static void Ble_Hci_Gap_Gatt_Init(void)
   BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.encryptionKeySizeMax = CFG_ENCRYPTION_KEY_SIZE_MAX;
   BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.bonding_mode = CFG_BONDING_MODE;
   /* USER CODE BEGIN Ble_Hci_Gap_Gatt_Init_1*/
-
+  ///@HID @TODO
+ret = aci_gap_set_authentication_requirement(
+    0x01, // Bonding Mode
+  0x00,//  0x01, // MITM Mode
+    0x01, // SC Support (? ????? ?????? ???????)
+    0x00, // Keypress notification
+    0x07, // Min Key Size
+    0x10, // Max Key Size
+    0x00, // Use_Fixed_Pin (? ?????-??????? ??? 0, ??? ?????? "???????????? ????????????? ???")
+    111111, // Fixed_Pin
+    0x00  // Identity address
+);
   /* USER CODE END Ble_Hci_Gap_Gatt_Init_1*/
 
-  ret = aci_gap_set_authentication_requirement(BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.bonding_mode,
-                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.mitm_mode,
-                                               CFG_SC_SUPPORT,
-                                               CFG_KEYPRESS_NOTIFICATION_SUPPORT,
-                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.encryptionKeySizeMin,
-                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.encryptionKeySizeMax,
-                                               USE_FIXED_PIN_FOR_PAIRING_FORBIDDEN, /* deprecated feature */
-                                               0,                                   /* deprecated feature */
-                                               CFG_IDENTITY_ADDRESS);
+//  ret = aci_gap_set_authentication_requirement(BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.bonding_mode,
+//                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.mitm_mode,
+//                                               CFG_SC_SUPPORT,
+//                                               CFG_KEYPRESS_NOTIFICATION_SUPPORT,
+//                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.encryptionKeySizeMin,
+//                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.encryptionKeySizeMax,
+//                                               USE_FIXED_PIN_FOR_PAIRING_FORBIDDEN, /* deprecated feature */
+//                                               0,                                   /* deprecated feature */
+//                                               CFG_IDENTITY_ADDRESS);
   if (ret != BLE_STATUS_SUCCESS)
   {
     APP_DBG_MSG("  Fail   : aci_gap_set_authentication_requirement command, result: 0x%x \n", ret);
