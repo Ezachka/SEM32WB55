@@ -41,6 +41,16 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
+volatile uint32_t systick_counter=0;
+volatile _Bool systick_f;
+volatile _Bool systick_div_1hz;
+volatile _Bool systick_div_4hz;
+volatile _Bool systick_div_5hz;
+volatile _Bool systick_div_10hz;
+volatile _Bool systick_div_20hz;
+volatile _Bool systick_div_50hz;
+volatile _Bool systick_div_100hz;
+volatile _Bool systick_div_500hz;
 
 /* USER CODE END PV */
 
@@ -143,6 +153,19 @@ void UsageFault_Handler(void)
 }
 
 /**
+  * @brief This function handles System service call via SWI instruction.
+  */
+void SVC_Handler(void)
+{
+  /* USER CODE BEGIN SVCall_IRQn 0 */
+
+  /* USER CODE END SVCall_IRQn 0 */
+  /* USER CODE BEGIN SVCall_IRQn 1 */
+
+  /* USER CODE END SVCall_IRQn 1 */
+}
+
+/**
   * @brief This function handles Debug monitor.
   */
 void DebugMon_Handler(void)
@@ -153,6 +176,32 @@ void DebugMon_Handler(void)
   /* USER CODE BEGIN DebugMonitor_IRQn 1 */
 
   /* USER CODE END DebugMonitor_IRQn 1 */
+}
+
+/**
+  * @brief This function handles Pendable request for system service.
+  */
+void PendSV_Handler(void)
+{
+  /* USER CODE BEGIN PendSV_IRQn 0 */
+
+  /* USER CODE END PendSV_IRQn 0 */
+  /* USER CODE BEGIN PendSV_IRQn 1 */
+
+  /* USER CODE END PendSV_IRQn 1 */
+}
+
+/**
+  * @brief This function handles System tick timer.
+  */
+void SysTick_Handler(void)
+{
+  /* USER CODE BEGIN SysTick_IRQn 0 */
+
+  /* USER CODE END SysTick_IRQn 0 */
+  /* USER CODE BEGIN SysTick_IRQn 1 */
+
+  /* USER CODE END SysTick_IRQn 1 */
 }
 
 /******************************************************************************/
@@ -197,6 +246,18 @@ void TIM1_TRG_COM_TIM17_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_TRG_COM_TIM17_IRQn 0 */
 
+    	systick_counter++;
+    
+    systick_f = 1;
+    
+    if( ((systick_counter-8) % 1000) == 0 )      systick_div_1hz   = 1; 
+    if( ((systick_counter-7) % 200)  == 0 )      systick_div_5hz   = 1; 
+    if( ((systick_counter-6) % 100)  == 0 )      systick_div_10hz  = 1;
+    if( ((systick_counter-5) % 50)   == 0 )      systick_div_20hz = 1;    
+    if( ((systick_counter-4) % 20)   == 0 )      systick_div_50hz = 1;   
+    if( ((systick_counter-3) % 10)   == 0 )      systick_div_100hz = 1;
+    if( ((systick_counter-2) % 2)   == 0 )       systick_div_500hz = 1;
+    
   /* USER CODE END TIM1_TRG_COM_TIM17_IRQn 0 */
   HAL_TIM_IRQHandler(&htim17);
   /* USER CODE BEGIN TIM1_TRG_COM_TIM17_IRQn 1 */

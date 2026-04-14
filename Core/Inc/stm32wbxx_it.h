@@ -37,7 +37,16 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
+    extern volatile _Bool systick_f;
+    extern volatile _Bool systick_div_1hz;
+    extern volatile _Bool systick_div_4hz;
+    extern volatile _Bool systick_div_5hz;
+    extern volatile _Bool systick_div_10hz;
+    extern volatile _Bool systick_div_20hz;
+    extern volatile _Bool systick_div_50hz;
+    extern volatile _Bool systick_div_100hz;
+    extern volatile _Bool systick_div_500hz;
+    
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -51,7 +60,10 @@ void HardFault_Handler(void);
 void MemManage_Handler(void);
 void BusFault_Handler(void);
 void UsageFault_Handler(void);
+void SVC_Handler(void);
 void DebugMon_Handler(void);
+void PendSV_Handler(void);
+void SysTick_Handler(void);
 void RTC_WKUP_IRQHandler(void);
 void USB_LP_IRQHandler(void);
 void TIM1_TRG_COM_TIM17_IRQHandler(void);

@@ -18,14 +18,16 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "cmsis_os2.h"
-#include "FreeRTOS.h"
 #include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "usbd_cdc_if.h"
+#include "stdbool.h"
+#include "stm32wbxx_it.h"
 
+
+#include "usbd_cdc_if.h"
+#include "custom_stm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,29 +52,8 @@ RTC_HandleTypeDef hrtc;
 
 UART_HandleTypeDef huart1;
 
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
-/* Definitions for APP_task */
-osThreadId_t APP_taskHandle;
-const osThreadAttr_t APP_task_attributes = {
-  .name = "APP_task",
-  .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 128 * 4
-};
-/* Definitions for RF_task */
-osThreadId_t RF_taskHandle;
-const osThreadAttr_t RF_task_attributes = {
-  .name = "RF_task",
-  .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 128 * 4
-};
 /* USER CODE BEGIN PV */
-
+uint8_t test=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -83,10 +64,6 @@ static void MX_IPCC_Init(void);
 static void MX_RTC_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_RF_Init(void);
-void StartDefaultTask(void *argument);
-void Start_APP_task(void *argument);
-void Start_RF_task(void *argument);
-
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -128,71 +105,72 @@ int main(void)
   MX_IPCC_Init();
 
   /* USER CODE BEGIN SysInit */
-
+  
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_USB_Device_Init();
   MX_RTC_Init();
   MX_USART1_UART_Init();
   MX_RF_Init();
   /* USER CODE BEGIN 2 */
-
+  
   /* USER CODE END 2 */
-
-  /* Init scheduler */
-  osKernelInitialize();
-
-  /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
-
-  /* creation of APP_task */
-  APP_taskHandle = osThreadNew(Start_APP_task, NULL, &APP_task_attributes);
-
-  /* creation of RF_task */
-  RF_taskHandle = osThreadNew(Start_RF_task, NULL, &RF_task_attributes);
-
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
-
-  /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
 
   /* Init code for STM32_WPAN */
   MX_APPE_Init();
-
-  /* Start scheduler */
-  osKernelStart();
-
-  /* We should never get here as control is now taken by the scheduler */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
+    MX_APPE_Process();
 
     /* USER CODE BEGIN 3 */
+//        if( systick_f )
+//        {
+//            systick_f = false;   
+//        }
+//        
+//        if( systick_div_100hz )
+//        {
+//            systick_div_100hz = false;    
+//        }
+//        if( systick_div_50hz ) 
+//        {
+//            systick_div_50hz = false;
+//        }
+//        if( systick_div_20hz ) 
+//        {
+//            systick_div_20hz = false;
+//        }     
+//        
+//        if( systick_div_10hz )
+//        { 
+//            systick_div_10hz = false;
+//        }
+//        
+//        if( systick_div_5hz )
+//        {   
+//            systick_div_5hz = false;
+//        }
+//        
+//        if( systick_div_1hz )
+//        {       
+//            systick_div_1hz = false;
+//            HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
+//            
+//        //    uint8_t my_msg[] = "Hello";
+//            uint8_t buffer[20];
+//            int len = sprintf((char*)buffer, "Hello %c", test); // 
+////            Custom_STM_App_Update_Char_Variable_Length(CUSTOM_STM_TX, buffer, len);
+//            test++;
+//        }
+        
   }
+  
   /* USER CODE END 3 */
 }
 
@@ -451,72 +429,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
-
-/* USER CODE BEGIN Header_StartDefaultTask */
-/**
-* @brief  Function implementing the defaultTask thread.
-* @param  argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
-{
-    /* init code for USB_Device */
-    MX_USB_Device_Init();
-    /* USER CODE BEGIN 5 */
-    MX_APPE_Init();
-    
-    /* Infinite loop */
-    for(;;)
-    {
-        
-        osDelay(1);
-    }
-    /* USER CODE END 5 */
-}
-
-/* USER CODE BEGIN Header_Start_APP_task */
-/**
-* @brief Function implementing the APP_task thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_Start_APP_task */
-void Start_APP_task(void *argument)
-{
-    /* USER CODE BEGIN Start_APP_task */
-    static uint16_t n;
-    
-    /* Infinite loop */
-    for(;;)
-    {
-        n++;
-        if (n==1000){
-            n=0;
-            HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
-        }
-        osDelay(1);
-    }
-    /* USER CODE END Start_APP_task */
-}
-
-/* USER CODE BEGIN Header_Start_RF_task */
-/**
-* @brief Function implementing the RF_task thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_Start_RF_task */
-void Start_RF_task(void *argument)
-{
-  /* USER CODE BEGIN Start_RF_task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END Start_RF_task */
-}
 
 /**
   * @brief  Period elapsed callback in non blocking mode

@@ -25,14 +25,6 @@ D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Drivers/S
 -I
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Utilities/lpm/tiny_lpm
 -I
-D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/include
--I
-D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
--I
-D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F
--I
-D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Drivers/CMSIS/RTOS2/Include
--I
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Middlewares/ST/STM32_WPAN
 -I
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread
@@ -63,6 +55,8 @@ D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Middlewar
 -I
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Drivers/CMSIS/Include
 -I
+D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Utilities/sequencer
+-I
 C:\Program Files\IAR Systems\Embedded Workbench 9.2\arm\inc\c\aarch32
 -I
 C:\Program Files\IAR Systems\Embedded Workbench 9.2\arm\inc
@@ -82,14 +76,6 @@ D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Drivers\STM32WBxx_
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Drivers\STM32WBxx_HAL_Driver\Inc\Legacy
 -I
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Utilities\lpm\tiny_lpm
--I
-D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Middlewares\Third_Party\FreeRTOS\Source\include
--I
-D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2
--I
-D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F
--I
-D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Drivers\CMSIS\RTOS2\Include
 -I
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Middlewares\ST\STM32_WPAN
 -I
@@ -120,6 +106,8 @@ D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Drivers\CMSIS\Devi
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Middlewares\ST\STM32_WPAN\ble
 -I
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Drivers\CMSIS\Include
+-I
+D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Utilities\sequencer
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0
