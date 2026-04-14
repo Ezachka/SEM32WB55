@@ -25,9 +25,10 @@
 #include "stdbool.h"
 #include "stm32wbxx_it.h"
 
-
 #include "usbd_cdc_if.h"
 #include "custom_stm.h"
+      
+#include "BLE_services_custom.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,7 +93,7 @@ int main(void)
   MX_APPE_Config();
 
   /* USER CODE BEGIN Init */
-
+  
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -105,7 +106,7 @@ int main(void)
   MX_IPCC_Init();
 
   /* USER CODE BEGIN SysInit */
-  
+  BLE_USB_compromiss_init();
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -129,45 +130,45 @@ int main(void)
     MX_APPE_Process();
 
     /* USER CODE BEGIN 3 */
-//        if( systick_f )
-//        {
-//            systick_f = false;   
-//        }
-//        
-//        if( systick_div_100hz )
-//        {
-//            systick_div_100hz = false;    
-//        }
-//        if( systick_div_50hz ) 
-//        {
-//            systick_div_50hz = false;
-//        }
-//        if( systick_div_20hz ) 
-//        {
-//            systick_div_20hz = false;
-//        }     
-//        
-//        if( systick_div_10hz )
-//        { 
-//            systick_div_10hz = false;
-//        }
-//        
-//        if( systick_div_5hz )
-//        {   
-//            systick_div_5hz = false;
-//        }
-//        
-//        if( systick_div_1hz )
-//        {       
-//            systick_div_1hz = false;
-//            HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
-//            
-//        //    uint8_t my_msg[] = "Hello";
-//            uint8_t buffer[20];
-//            int len = sprintf((char*)buffer, "Hello %c", test); // 
-////            Custom_STM_App_Update_Char_Variable_Length(CUSTOM_STM_TX, buffer, len);
-//            test++;
-//        }
+      if( systick_f )
+      {
+          systick_f = false;   
+      }
+      
+      if( systick_div_100hz )
+        {
+            systick_div_100hz = false;    
+        }
+        if( systick_div_50hz ) 
+        {
+            systick_div_50hz = false;
+        }
+        if( systick_div_20hz ) 
+        {
+            systick_div_20hz = false;
+        }     
+        
+        if( systick_div_10hz )
+        { 
+            systick_div_10hz = false;
+        }
+        
+        if( systick_div_5hz )
+        {   
+            systick_div_5hz = false;
+        }
+        
+        if( systick_div_1hz )
+        {       
+            systick_div_1hz = false;
+            HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
+            
+        //    uint8_t my_msg[] = "Hello";
+            uint8_t buffer[20];
+            int len = sprintf((char*)buffer, "Hello %c", test); // 
+//            Custom_STM_App_Update_Char_Variable_Length(CUSTOM_STM_TX, buffer, len);
+            test++;
+        }
         
   }
   

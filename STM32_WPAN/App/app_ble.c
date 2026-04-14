@@ -212,9 +212,9 @@ uint8_t index_con_int, mutex;
 /**
  * Advertising Data
  */
-uint8_t a_AdvData[6] =
+uint8_t a_AdvData[4] =
 {
-  5, AD_TYPE_16_BIT_SERV_UUID_CMPLT_LIST, 0x78, 0x56, 0x34, 0x12,
+  3, AD_TYPE_16_BIT_SERV_UUID_CMPLT_LIST, 0x34, 0x12,
 
 };
 
