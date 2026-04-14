@@ -223,7 +223,7 @@ uint8_t index_con_int, mutex;
  ///@HID @TODO
 uint8_t a_AdvData[14] =
 {
-  3, AD_TYPE_APPEARANCE, 0x03, 0xC3 /* joy_APPEARANCE */,
+  3, AD_TYPE_APPEARANCE, 0x03, 0xC4 /* gamepad_APPEARANCE */,
   9, AD_TYPE_16_BIT_SERV_UUID_CMPLT_LIST, 0x34, 0x12, 0x0F, 0x18, 0x0A, 0x18, 0x12, 0x18,
 
 };
@@ -946,16 +946,26 @@ aci_gap_clear_security_db(); ///@HID @TODO
   BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.bonding_mode = CFG_BONDING_MODE;
   /* USER CODE BEGIN Ble_Hci_Gap_Gatt_Init_1*/
   ///@HID @TODO
-ret = aci_gap_set_authentication_requirement(
-    0x01, // Bonding Mode
-  0x00,//  0x01, // MITM Mode
-    0x01, // SC Support (? ????? ?????? ???????)
-    0x00, // Keypress notification
-    0x07, // Min Key Size
-    0x10, // Max Key Size
-    0x00, // Use_Fixed_Pin (? ?????-??????? ??? 0, ??? ?????? "???????????? ????????????? ???")
-    111111, // Fixed_Pin
-    0x00  // Identity address
+//ret = aci_gap_set_authentication_requirement(
+//    0x01, // Bonding Mode
+//  0x00,//  0x01, // MITM Mode
+//    0x01, // SC Support (? ????? ?????? ???????)
+//    0x00, // Keypress notification
+//    0x07, // Min Key Size
+//    0x10, // Max Key Size
+//    0x00, // Use_Fixed_Pin (? ?????-??????? ??? 0, ??? ?????? "???????????? ????????????? ???")
+//    111111, // Fixed_Pin
+//    0x00  // Identity address
+//);
+  ret = aci_gap_set_authentication_requirement(
+    0x01, // Bonding
+    0x00, // MITM NOT REQUIRED (??? ? Selfie)
+    0x00, // SC Support
+    0x00, // Keypress
+    0x07, 0x10,
+    0x01, // Use fixed pin
+    111111,
+    0x00
 );
   /* USER CODE END Ble_Hci_Gap_Gatt_Init_1*/
 

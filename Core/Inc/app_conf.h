@@ -82,7 +82,7 @@
 #define CFG_IO_CAPABILITY_NO_INPUT_NO_OUTPUT  (0x03)
 #define CFG_IO_CAPABILITY_KEYBOARD_DISPLAY    (0x04)
 
-#define CFG_IO_CAPABILITY                      CFG_IO_CAPABILITY_NO_INPUT_NO_OUTPUT
+#define CFG_IO_CAPABILITY                     CFG_IO_CAPABILITY_DISPLAY_ONLY
 
 /**
  * Define MITM modes
@@ -204,7 +204,7 @@
  * Note that certain characteristics and relative descriptors are added automatically during device initialization
  * so this parameters should be 9 plus the number of user Attributes
  */
-#define CFG_BLE_NUM_GATT_ATTRIBUTES 100
+#define CFG_BLE_NUM_GATT_ATTRIBUTES 90
 
 /**
  * Maximum supported ATT_MTU size

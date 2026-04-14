@@ -27,6 +27,19 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+//typedef struct{
+//  uint16_t  CustomComHdle;                    /**< Virtual_com handle */
+//  uint16_t  CustomTx_OutHdle;                  /**< Transmit_to_phone handle */
+//  uint16_t  CustomRx_InHdle;                  /**< Receive_from_phone handle */
+//  uint16_t  CustomHidHdle;                    /**< Human_Interface_Device handle */
+//  uint16_t  CustomRxHdle;                  /**< Report_map handle */
+//  uint16_t  CustomRepHdle;                  /**< Report handle */
+//  uint16_t  CustomDisHdle;                    /**< Device_information handle */
+//  uint16_t  CustomPnpHdle;                  /**< PnP handle */
+//  uint16_t  CustomBasHdle;                    /**< Battery_settings handle */
+//  uint16_t  CustomBatHdle;                  /**< Battery_Level handle */
+/* USER CODE BEGIN Context */
+///@TODO @HID
 typedef struct{
   uint16_t  CustomComHdle;                    /**< Virtual_com handle */
   uint16_t  CustomTx_OutHdle;                  /**< Transmit_to_phone handle */
@@ -34,11 +47,12 @@ typedef struct{
   uint16_t  CustomHidHdle;                    /**< Human_Interface_Device handle */
   uint16_t  CustomRxHdle;                  /**< Report_map handle */
   uint16_t  CustomRepHdle;                  /**< Report handle */
+  uint16_t  CustomRepRefHdle; // <--- ?????? ??? ?????? ????
   uint16_t  CustomDisHdle;                    /**< Device_information handle */
   uint16_t  CustomPnpHdle;                  /**< PnP handle */
   uint16_t  CustomBasHdle;                    /**< Battery_settings handle */
   uint16_t  CustomBatHdle;                  /**< Battery_Level handle */
-/* USER CODE BEGIN Context */
+  
   /* Place holder for Characteristic Descriptors Handle*/
 
 /* USER CODE END Context */
@@ -75,7 +89,7 @@ extern uint16_t Connection_Handle;
 uint16_t SizeTx_Out = 20;
 uint16_t SizeRx_In = 20;
 uint16_t SizeRx = 44;
-uint16_t SizeRep = 4;
+uint16_t SizeRep = 5;
 uint16_t SizePnp = 1;
 uint16_t SizeBat = 1;
 
@@ -116,7 +130,6 @@ do {\
     uuid_struct[12] = uuid_12; uuid_struct[13] = uuid_13; uuid_struct[14] = uuid_14; uuid_struct[15] = uuid_15; \
 }while(0)
 
-#define COPY_REPORT_UUID(uuid_struct)    COPY_UUID_128(uuid_struct,0x00,0x00,0x2a,0x4d,0x8e,0x22,0x45,0x41,0x9d,0x4c,0x21,0xed,0xae,0x82,0xed,0x19)
 #define COPY_DEVICE_INFORMATION_UUID(uuid_struct)          COPY_UUID_128(uuid_struct,0x00,0x00,0x18,0x0a,0xcc,0x7a,0x48,0x2a,0x98,0x4a,0x7f,0x2e,0xd5,0xb3,0xe5,0x8f)
 #define COPY_PNP_UUID(uuid_struct)    COPY_UUID_128(uuid_struct,0x00,0x00,0x2a,0x50,0x8e,0x22,0x45,0x41,0x9d,0x4c,0x21,0xed,0xae,0x82,0xed,0x19)
 #define COPY_BATTERY_SETTINGS_UUID(uuid_struct)          COPY_UUID_128(uuid_struct,0x00,0x00,0x18,0x0f,0xcc,0x7a,0x48,0x2a,0x98,0x4a,0x7f,0x2e,0xd5,0xb3,0xe5,0x8f)
@@ -302,13 +315,6 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
               Custom_STM_App_Notification(&Notification); // <--- ??? ???? ????? ???????? ??? ? custom_app.c
             /* USER CODE END CUSTOM_STM_Service_1_Char_2_ACI_GATT_ATTRIBUTE_MODIFIED_VSEVT_CODE */
           } /* if (attribute_modified->Attr_Handle == (CustomContext.CustomRx_InHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
-          else if (attribute_modified->Attr_Handle == (CustomContext.CustomRepHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /* USER CODE BEGIN CUSTOM_STM_Service_2_Char_2_ACI_GATT_ATTRIBUTE_MODIFIED_VSEVT_CODE */
-
-            /* USER CODE END CUSTOM_STM_Service_2_Char_2_ACI_GATT_ATTRIBUTE_MODIFIED_VSEVT_CODE */
-          } /* if (attribute_modified->Attr_Handle == (CustomContext.CustomRepHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
           /* USER CODE BEGIN EVT_BLUE_GATT_ATTRIBUTE_MODIFIED_END */
           
           /* USER CODE END EVT_BLUE_GATT_ATTRIBUTE_MODIFIED_END */
@@ -381,15 +387,6 @@ static SVCCTL_EvtAckStatus_t Custom_STM_Event_Handler(void *Event)
 aci_gatt_write_resp(write_perm_req->Connection_Handle, write_perm_req->Attribute_Handle, 0, 0, 0, NULL);
             /*USER CODE END CUSTOM_STM_Service_1_Char_2_ACI_GATT_WRITE_PERMIT_REQ_VSEVT_CODE*/
           } /*if (write_perm_req->Attribute_Handle == (CustomContext.CustomRx_InHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
-
-          else if (write_perm_req->Attribute_Handle == (CustomContext.CustomRepHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))
-          {
-            return_value = SVCCTL_EvtAckFlowEnable;
-            /* Allow or reject a write request from a client using aci_gatt_write_resp(...) function */
-            /*USER CODE BEGIN CUSTOM_STM_Service_2_Char_2_ACI_GATT_WRITE_PERMIT_REQ_VSEVT_CODE */
-
-            /*USER CODE END CUSTOM_STM_Service_2_Char_2_ACI_GATT_WRITE_PERMIT_REQ_VSEVT_CODE*/
-          } /*if (write_perm_req->Attribute_Handle == (CustomContext.CustomRepHdle + CHARACTERISTIC_VALUE_ATTRIBUTE_OFFSET))*/
 
           /* USER CODE BEGIN EVT_BLUE_GATT_WRITE_PERMIT_REQ_END */
 
@@ -652,14 +649,16 @@ aci_gatt_update_char_value(CustomContext.CustomHidHdle,
 
 
   /* USER CODE END SVCCTL_Init_Service2_Char1 */
+
+
   /**
    *  Report
    */
-  COPY_REPORT_UUID(uuid.Char_UUID_128);
+  uuid.Char_UUID_16 = 0x2a4d;
   ret = aci_gatt_add_char(CustomContext.CustomHidHdle,
-                          UUID_TYPE_128, &uuid,
+                          UUID_TYPE_16, &uuid,
                           SizeRep,
-                          CHAR_PROP_READ | CHAR_PROP_WRITE | CHAR_PROP_NOTIFY,
+                          CHAR_PROP_READ | CHAR_PROP_NOTIFY,
                           ATTR_PERMISSION_NONE,
                           GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
                           0x10,
@@ -679,15 +678,16 @@ aci_gatt_update_char_value(CustomContext.CustomHidHdle,
   ///@Report HID @TODO
 // 0x00 - No ID, 0x01 - Input Report
 uint8_t report_ref[] = {0x00, 0x01}; 
-  
-  aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
+ uint16_t uuid16_ref=0x2908;
+uint16_t reportRefHandle; // ?????? ? ????????? ?????????
+aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
                          CustomContext.CustomRepHdle,
                          UUID_TYPE_16,
-                         (Char_Desc_Uuid_t *)0x2908, 
+                         (Char_Desc_Uuid_t *)&uuid16_ref, // ??? uuid16_ref = 0x2908
                          2, 2, report_ref,
                          ATTR_PERMISSION_NONE, ATTR_ACCESS_READ_ONLY,
                          GATT_DONT_NOTIFY_EVENTS, 10,
-                         CHAR_VALUE_LEN_CONSTANT, &Connection_Handle);
+                         CHAR_VALUE_LEN_CONSTANT, &(CustomContext.CustomRepRefHdle));
   
   /* USER CODE END SVCCTL_Init_Service2_Char2 */
 

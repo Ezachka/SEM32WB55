@@ -152,12 +152,6 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       /* USER CODE END CUSTOM_STM_REP_READ_EVT */
       break;
 
-    case CUSTOM_STM_REP_WRITE_EVT:
-      /* USER CODE BEGIN CUSTOM_STM_REP_WRITE_EVT */
-
-      /* USER CODE END CUSTOM_STM_REP_WRITE_EVT */
-      break;
-
     case CUSTOM_STM_REP_NOTIFY_ENABLED_EVT:
       /* USER CODE BEGIN CUSTOM_STM_REP_NOTIFY_ENABLED_EVT */
 
