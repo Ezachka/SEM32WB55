@@ -34,14 +34,16 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 typedef enum
 {
-  /* Virtual_com */
+  /* IO_COM */
   CUSTOM_STM_TX_OUT,
   CUSTOM_STM_RX_IN,
   /* Human_Interface_Device */
-  CUSTOM_STM_RX,
+  CUSTOM_STM_RMAP,
   CUSTOM_STM_REP,
+  CUSTOM_STM_INF,
+  CUSTOM_STM_CP,
   /* Device_information */
-  CUSTOM_STM_PNP,
+  CUSTOM_STM_MNF,
   /* Battery_settings */
   CUSTOM_STM_BAT,
 } Custom_STM_Char_Opcode_t;
@@ -55,12 +57,18 @@ typedef enum
   /* Receive_from_phone */
   CUSTOM_STM_RX_IN_WRITE_NO_RESP_EVT,
   /* Report_map */
-  CUSTOM_STM_RX_READ_EVT,
+  CUSTOM_STM_RMAP_READ_EVT,
   /* Report */
   CUSTOM_STM_REP_READ_EVT,
+  CUSTOM_STM_REP_WRITE_EVT,
   CUSTOM_STM_REP_NOTIFY_ENABLED_EVT,
   CUSTOM_STM_REP_NOTIFY_DISABLED_EVT,
-  /* PnP */
+  /* HID_Information */
+  CUSTOM_STM_INF_READ_EVT,
+  /* HID_Control_Point */
+  CUSTOM_STM_CP_WRITE_NO_RESP_EVT,
+  /* Manufacturer_Name_String */
+  CUSTOM_STM_MNF_READ_EVT,
   /* Battery_Level */
   CUSTOM_STM_BAT_READ_EVT,
   CUSTOM_STM_BAT_NOTIFY_ENABLED_EVT,
@@ -89,42 +97,17 @@ typedef struct
 ///@TODO Joy HID DESC
 #define HID_JOYSTICK_REPORT_DESC_SIZE              44U    
 
-static uint8_t HID_JOYSTICK_ReportDesc[HID_JOYSTICK_REPORT_DESC_SIZE]  =
-{
-     0x05, 0x01, // USAGE_PAGE (Generic Desktop)
- 0x09, 0x04,   // USAGE (Game Pad)
- 0xa1, 0x01,   // COLLECTION (Application)
- 0x09, 0x01,   //   USAGE (Pointer)
- 0xa1, 0x00,   //   COLLECTION (Physical)
- 0x09, 0x30,   //    USAGE (X)
- 0x09, 0x31,   //    USAGE (Y)
- //0x09, 0x33,   //    USAGE (Rx)
- //0x09, 0x34,   //    USAGE (RY)
- 0x16, 0x18, 0xfc,   //    LOGICAL_MINIMUM (-1000)//0x16, 0x01, 0xf8,   //    LOGICAL_MINIMUM (-2047)
- 0x26, 0xe8, 0x03,   //    LOGICAL_MAXIMUM (1000)//0x26, 0xff, 0x07,   //    LOGICAL_MAXIMUM (2047)
- 0x75, 0x10,   //    REPORT_SIZE (16)
- 0x95, 0x02,   //    REPORT_COUNT (2)
- 0x81, 0x02,   //    INPUT (Data,Var,Abs)
- 0xc0,         //   END_COLLECTION
- 0x05, 0x09,   //   USAGE_PAGE (Button)
- 0x19, 0x01,   //   USAGE_MINIMUM (Button 1)
- 0x29, 0x08,   //   USAGE_MAXIMUM (Button 8)
- 0x15, 0x00,   //   LOGICAL_MINIMUM (0)
- 0x25, 0x01,   //   LOGICAL_MAXIMUM (1)
- 0x75, 0x01,   //   REPORT_SIZE (1)
- 0x95, 0x08,   //   REPORT_COUNT (8)
- 0x81, 0x02,   //   INPUT (Data,Var,Abs)
- 0xc0 //          END_COLLECTION
-};
-
+extern uint8_t HID_JOYSTICK_ReportDesc[HID_JOYSTICK_REPORT_DESC_SIZE];
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
 extern uint16_t SizeTx_Out;
 extern uint16_t SizeRx_In;
-extern uint16_t SizeRx;
+extern uint16_t SizeRmap;
 extern uint16_t SizeRep;
-extern uint16_t SizePnp;
+extern uint16_t SizeInf;
+extern uint16_t SizeCp;
+extern uint16_t SizeMnf;
 extern uint16_t SizeBat;
 
 /* USER CODE BEGIN EC */

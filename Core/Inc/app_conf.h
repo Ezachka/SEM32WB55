@@ -40,7 +40,7 @@
 /**
  * Define Advertising parameters
  */
-#define CFG_ADV_BD_ADDRESS                (0x11aabbccddea)
+#define CFG_ADV_BD_ADDRESS                (0x11aabbccadef)
 
 /**
  * Define BD_ADDR type: define proper address. Can only be GAP_PUBLIC_ADDR (0x00) or GAP_STATIC_RANDOM_ADDR (0x01)
@@ -99,7 +99,7 @@
 #define CFG_SECURE_OPTIONAL                   (0x01)
 #define CFG_SECURE_MANDATORY                  (0x02)
 
-#define CFG_SC_SUPPORT                        CFG_SECURE_OPTIONAL
+#define CFG_SC_SUPPORT                        CFG_SECURE_NOT_SUPPORTED
 
 /**
  * Define Keypress Notification Support
@@ -346,9 +346,9 @@
 
 #define CFG_BLE_MAX_COC_INITIATOR_NBR   (32)
 
-#define CFG_BLE_MIN_TX_POWER            (0)
+#define CFG_BLE_MIN_TX_POWER            (-40)
 
-#define CFG_BLE_MAX_TX_POWER            (0)
+#define CFG_BLE_MAX_TX_POWER            (6)
 
 /**
  * BLE stack Maximum number of created Enhanced ATT bearers to be configured
@@ -474,7 +474,7 @@
  *  When set to 1, the low power mode is enable
  *  When set to 0, the device stays in RUN mode
  */
-#define CFG_LPM_SUPPORTED    0
+#define CFG_LPM_SUPPORTED    1
 
 /******************************************************************************
  * RTC interface
@@ -577,7 +577,7 @@ typedef enum
  * This shall be set to 0 in a final product
  *
  */
-#define CFG_HW_RESET_BY_FW         0
+#define CFG_HW_RESET_BY_FW         1
 
 /**
  * keep debugger enabled while in any low power mode when set to 1
@@ -649,7 +649,27 @@ typedef enum
 #define MAX_DBG_TRACE_MSG_SIZE   1024
 
 /* USER CODE BEGIN Defines */
+/* ???????? ???? ???? ???? ?? ?????? ?????? ? UART */
+///@TODO DEBUG 
+#include <stdio.h>
+#include <string.h>
+#include "stm32wbxx_hal.h"
 
+extern UART_HandleTypeDef huart1; 
+
+#undef PRINT_MESG_DBG
+#undef APP_DBG_MSG
+
+// ?????? ????? ???????????, ????? ?? ?? ??? ?? ?????
+#define APP_DBG_MSG(...) do { \
+    static char debug_buffer[128]; \
+    int len = snprintf(debug_buffer, sizeof(debug_buffer), __VA_ARGS__); \
+    if (len > 0) { \
+        HAL_UART_Transmit(&huart1, (uint8_t*)debug_buffer, len, 100); \
+    } \
+} while (0)
+
+#define PRINT_MESG_DBG APP_DBG_MSG
 /* USER CODE END Defines */
 
 /******************************************************************************

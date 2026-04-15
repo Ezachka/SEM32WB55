@@ -36,7 +36,7 @@
 /* Private typedef -----------------------------------------------------------*/
 typedef struct
 {
-  /* Virtual_com */
+  /* IO_COM */
   uint8_t               Tx_out_Notification_Status;
   /* Human_Interface_Device */
   uint8_t               Rep_Notification_Status;
@@ -83,7 +83,7 @@ uint16_t Connection_Handle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-/* Virtual_com */
+/* IO_COM */
 static void Custom_Tx_out_Update_Char(void);
 static void Custom_Tx_out_Send_Notification(void);
 /* Human_Interface_Device */
@@ -110,7 +110,7 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
 
     /* USER CODE END CUSTOM_STM_App_Notification_Custom_Evt_Opcode */
 
-    /* Virtual_com */
+    /* IO_COM */
     case CUSTOM_STM_TX_OUT_READ_EVT:
       /* USER CODE BEGIN CUSTOM_STM_TX_OUT_READ_EVT */
 
@@ -140,16 +140,22 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       break;
 
     /* Human_Interface_Device */
-    case CUSTOM_STM_RX_READ_EVT:
-      /* USER CODE BEGIN CUSTOM_STM_RX_READ_EVT */
+    case CUSTOM_STM_RMAP_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_RMAP_READ_EVT */
 
-      /* USER CODE END CUSTOM_STM_RX_READ_EVT */
+      /* USER CODE END CUSTOM_STM_RMAP_READ_EVT */
       break;
 
     case CUSTOM_STM_REP_READ_EVT:
       /* USER CODE BEGIN CUSTOM_STM_REP_READ_EVT */
 
       /* USER CODE END CUSTOM_STM_REP_READ_EVT */
+      break;
+
+    case CUSTOM_STM_REP_WRITE_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_REP_WRITE_EVT */
+
+      /* USER CODE END CUSTOM_STM_REP_WRITE_EVT */
       break;
 
     case CUSTOM_STM_REP_NOTIFY_ENABLED_EVT:
@@ -164,7 +170,25 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
       /* USER CODE END CUSTOM_STM_REP_NOTIFY_DISABLED_EVT */
       break;
 
+    case CUSTOM_STM_INF_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_INF_READ_EVT */
+
+      /* USER CODE END CUSTOM_STM_INF_READ_EVT */
+      break;
+
+    case CUSTOM_STM_CP_WRITE_NO_RESP_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_CP_WRITE_NO_RESP_EVT */
+
+      /* USER CODE END CUSTOM_STM_CP_WRITE_NO_RESP_EVT */
+      break;
+
     /* Device_information */
+    case CUSTOM_STM_MNF_READ_EVT:
+      /* USER CODE BEGIN CUSTOM_STM_MNF_READ_EVT */
+
+      /* USER CODE END CUSTOM_STM_MNF_READ_EVT */
+      break;
+
     /* Battery_settings */
     case CUSTOM_STM_BAT_READ_EVT:
       /* USER CODE BEGIN CUSTOM_STM_BAT_READ_EVT */
@@ -243,17 +267,31 @@ void Custom_APP_Init(void)
 {
   /* USER CODE BEGIN CUSTOM_APP_Init */
         ///@Report DEV INfO @TODO
-// 1. ??????? ???????
-  uint8_t bat = 90;
+// 1. Manufacturer Name (CUSTOM_STM_MNF) - UUID 2A29
+  // ? ???? ???? 1218? ?????? ????? ?????.
+  uint8_t manufacturer[20] = "Joystick_Dev"; 
+  Custom_STM_App_Update_Char(CUSTOM_STM_MNF, manufacturer);
+
+  // 2. Battery Level (CUSTOM_STM_BAT) - UUID 2A19
+  uint8_t bat = 95;
   Custom_STM_App_Update_Char(CUSTOM_STM_BAT, &bat);
 
-  // 2. PnP ID (??????????? 7 ????)
-  uint8_t pnp[7] = {0x02, 0x83, 0x04, 0x10, 0x57, 0x00, 0x01};
-  Custom_STM_App_Update_Char(CUSTOM_STM_PNP, pnp);
+  // 3. HID Information (CUSTOM_STM_INF) - UUID 2A4A
+  uint8_t hid_info[4] = {0x11, 0x01, 0x00, 0x01};
+  Custom_STM_App_Update_Char(CUSTOM_STM_INF, hid_info);
 
-  // 3. ??????? ?????? ?????? ?????????, ????? ??????? Windows ??? "???????"
-  uint8_t joy_empty[5] = {0, 0, 0, 0, 0};
-  Custom_STM_App_Update_Char(CUSTOM_STM_REP, joy_empty);
+  // 4. HID Control Point (CUSTOM_STM_CP) - UUID 2A4C
+  uint8_t hid_cp = 0x00;
+  Custom_STM_App_Update_Char(CUSTOM_STM_CP, &hid_cp);
+
+  // 5. Report Map (CUSTOM_STM_RMAP) - UUID 2A4B (44 ?????)
+  extern uint8_t HID_JOYSTICK_ReportDesc[]; 
+  Custom_STM_App_Update_Char(CUSTOM_STM_RMAP, HID_JOYSTICK_ReportDesc);
+
+  // 6. Report (CUSTOM_STM_REP) - UUID 2A4D (5 ????)
+  uint8_t joy_data[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
+  Custom_STM_App_Update_Char(CUSTOM_STM_REP, joy_data);
+  APP_DBG_MSG(">> CUSTOM_APP_Init: FINISHED OK\n");
   /* USER CODE END CUSTOM_APP_Init */
   return;
 }
@@ -268,7 +306,7 @@ void Custom_APP_Init(void)
  *
  *************************************************************/
 
-/* Virtual_com */
+/* IO_COM */
 __USED void Custom_Tx_out_Update_Char(void) /* Property Read */
 {
   uint8_t updateflag = 0;
