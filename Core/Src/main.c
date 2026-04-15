@@ -117,7 +117,6 @@ int main(void)
   MX_USART1_UART_Init();
   MX_RF_Init();
   /* USER CODE BEGIN 2 */
-  
   /* USER CODE END 2 */
 
   /* Init code for STM32_WPAN */
@@ -125,6 +124,9 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+    printf("Hello Debug\n");
+
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -168,6 +170,8 @@ int main(void)
             if(test){
                 test=false;
                 BLE_Send_Joystick_Test();
+            }else{
+                BLE_Joystick_Send_State(0,0,0);
             }
         }
         
@@ -370,7 +374,7 @@ static void MX_USART1_UART_Init(void)
   huart1.Init.Parity = UART_PARITY_NONE;
   huart1.Init.Mode = UART_MODE_TX_RX;
   huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_8;
   huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
   huart1.Init.ClockPrescaler = UART_PRESCALER_DIV1;
   huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
@@ -429,6 +433,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
 
 /* USER CODE END 4 */
 

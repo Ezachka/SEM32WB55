@@ -14,7 +14,7 @@ void BLE_rx_data(uint8_t* data, uint32_t size);
     
     
 void BLE_Send_Joystick_Test(void);
-    
+    void BLE_Joystick_Send_State(int16_t x, int16_t y, uint8_t buttons) ;
 
 #ifdef __cplusplus
 }

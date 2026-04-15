@@ -17,6 +17,8 @@
   ******************************************************************************
   */
 ///@TODO  BLE_CFG_UNKNOWN_APPEARANCE 
+#define BLE_CFG_UNKNOWN_APPEARANCE                  (0x03C4)
+
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -59,7 +61,7 @@
  * GAP Service - Appearance
  ******************************************************************************/
 
-#define BLE_CFG_UNKNOWN_APPEARANCE                  964//(0)
+//#define BLE_CFG_UNKNOWN_APPEARANCE                  (0x03C4)
 #define BLE_CFG_HR_SENSOR_APPEARANCE                (832)
 #define BLE_CFG_GAP_APPEARANCE                      (BLE_CFG_UNKNOWN_APPEARANCE)
 

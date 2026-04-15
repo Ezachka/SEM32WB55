@@ -90,7 +90,7 @@ uint16_t SizeTx_Out = 20;
 uint16_t SizeRx_In = 20;
 uint16_t SizeRx = 44;
 uint16_t SizeRep = 5;
-uint16_t SizePnp = 1;
+uint16_t SizePnp = 7;
 uint16_t SizeBat = 1;
 
 /**
@@ -121,19 +121,6 @@ static tBleStatus Generic_STM_App_Update_Char_Ext(uint16_t ConnectionHandle, uin
 /* USER CODE END PFD */
 
 /* Private functions ----------------------------------------------------------*/
-
-#define COPY_UUID_128(uuid_struct, uuid_15, uuid_14, uuid_13, uuid_12, uuid_11, uuid_10, uuid_9, uuid_8, uuid_7, uuid_6, uuid_5, uuid_4, uuid_3, uuid_2, uuid_1, uuid_0) \
-do {\
-    uuid_struct[0] = uuid_0; uuid_struct[1] = uuid_1; uuid_struct[2] = uuid_2; uuid_struct[3] = uuid_3; \
-    uuid_struct[4] = uuid_4; uuid_struct[5] = uuid_5; uuid_struct[6] = uuid_6; uuid_struct[7] = uuid_7; \
-    uuid_struct[8] = uuid_8; uuid_struct[9] = uuid_9; uuid_struct[10] = uuid_10; uuid_struct[11] = uuid_11; \
-    uuid_struct[12] = uuid_12; uuid_struct[13] = uuid_13; uuid_struct[14] = uuid_14; uuid_struct[15] = uuid_15; \
-}while(0)
-
-#define COPY_DEVICE_INFORMATION_UUID(uuid_struct)          COPY_UUID_128(uuid_struct,0x00,0x00,0x18,0x0a,0xcc,0x7a,0x48,0x2a,0x98,0x4a,0x7f,0x2e,0xd5,0xb3,0xe5,0x8f)
-#define COPY_PNP_UUID(uuid_struct)    COPY_UUID_128(uuid_struct,0x00,0x00,0x2a,0x50,0x8e,0x22,0x45,0x41,0x9d,0x4c,0x21,0xed,0xae,0x82,0xed,0x19)
-#define COPY_BATTERY_SETTINGS_UUID(uuid_struct)          COPY_UUID_128(uuid_struct,0x00,0x00,0x18,0x0f,0xcc,0x7a,0x48,0x2a,0x98,0x4a,0x7f,0x2e,0xd5,0xb3,0xe5,0x8f)
-#define COPY_BATTERY_LEVEL_UUID(uuid_struct)    COPY_UUID_128(uuid_struct,0x00,0x00,0x2a,0x19,0x8e,0x22,0x45,0x41,0x9d,0x4c,0x21,0xed,0xae,0x82,0xed,0x19)
 
 /* USER CODE BEGIN PF */
 
@@ -521,8 +508,8 @@ void SVCCTL_InitCustomSvc(void)
   }
 
   /* USER CODE BEGIN SVCCTL_Init_Service1_Char1 */
-  /* Place holder for Characteristic Descriptors */
-
+//  /* Place holder for Characteristic Descriptors */
+//
   /* USER CODE END SVCCTL_Init_Service1_Char1 */
   /**
    *  Receive_from_phone
@@ -564,11 +551,12 @@ void SVCCTL_InitCustomSvc(void)
    * This value doesn't take into account number of descriptors manually added
    * In case of descriptors added, please update the max_attr_record value accordingly in the next SVCCTL_InitService User Section
    */
-  max_attr_record = 6;
+  //max_attr_record = 6;
 
   /* USER CODE BEGIN SVCCTL_InitService2 */
   /* max_attr_record to be updated if descriptors have been added */
-
+  ///@Report HID @TODO  atr long
+  max_attr_record = 10;
   /* USER CODE END SVCCTL_InitService2 */
 
   uuid.Char_UUID_16 = 0x1812;
@@ -612,45 +600,24 @@ void SVCCTL_InitCustomSvc(void)
   /* Place holder for Characteristic Descriptors */
   
   ///@Descripror HID @TODO
-#define HID_JOYSTICK_REPORT_DESC_SIZE              44U    
-
-__ALIGN_BEGIN static uint8_t HID_JOYSTICK_ReportDesc[HID_JOYSTICK_REPORT_DESC_SIZE]  __ALIGN_END =
-{
-     0x05, 0x01, // USAGE_PAGE (Generic Desktop)
- 0x09, 0x04,   // USAGE (Game Pad)
- 0xa1, 0x01,   // COLLECTION (Application)
- 0x09, 0x01,   //   USAGE (Pointer)
- 0xa1, 0x00,   //   COLLECTION (Physical)
- 0x09, 0x30,   //    USAGE (X)
- 0x09, 0x31,   //    USAGE (Y)
- //0x09, 0x33,   //    USAGE (Rx)
- //0x09, 0x34,   //    USAGE (RY)
- 0x16, 0x18, 0xfc,   //    LOGICAL_MINIMUM (-1000)//0x16, 0x01, 0xf8,   //    LOGICAL_MINIMUM (-2047)
- 0x26, 0xe8, 0x03,   //    LOGICAL_MAXIMUM (1000)//0x26, 0xff, 0x07,   //    LOGICAL_MAXIMUM (2047)
- 0x75, 0x10,   //    REPORT_SIZE (16)
- 0x95, 0x02,   //    REPORT_COUNT (2)
- 0x81, 0x02,   //    INPUT (Data,Var,Abs)
- 0xc0,         //   END_COLLECTION
- 0x05, 0x09,   //   USAGE_PAGE (Button)
- 0x19, 0x01,   //   USAGE_MINIMUM (Button 1)
- 0x29, 0x08,   //   USAGE_MAXIMUM (Button 8)
- 0x15, 0x00,   //   LOGICAL_MINIMUM (0)
- 0x25, 0x01,   //   LOGICAL_MAXIMUM (1)
- 0x75, 0x01,   //   REPORT_SIZE (1)
- 0x95, 0x08,   //   REPORT_COUNT (8)
- 0x81, 0x02,   //   INPUT (Data,Var,Abs)
- 0xc0 //          END_COLLECTION
-};
 
   
-aci_gatt_update_char_value(CustomContext.CustomHidHdle, 
+ret = aci_gatt_update_char_value(CustomContext.CustomHidHdle, 
                              CustomContext.CustomRxHdle, 
                              0, HID_JOYSTICK_REPORT_DESC_SIZE, (uint8_t *)HID_JOYSTICK_ReportDesc);
+  if (ret != BLE_STATUS_SUCCESS)
+  {
+      asm("NOP");
+    APP_DBG_MSG("  Fail   : aci_gatt_add_char command   : RX, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+            asm("NOP");
 
+    APP_DBG_MSG("  Success: aci_gatt_add_char command   : RX , handle = 0x%04x \n\r", CustomContext.CustomRxHdle);
+  }
 
   /* USER CODE END SVCCTL_Init_Service2_Char1 */
-
-
   /**
    *  Report
    */
@@ -680,15 +647,38 @@ aci_gatt_update_char_value(CustomContext.CustomHidHdle,
 uint8_t report_ref[] = {0x00, 0x01}; 
  uint16_t uuid16_ref=0x2908;
 uint16_t reportRefHandle; // ?????? ? ????????? ?????????
-aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
-                         CustomContext.CustomRepHdle,
-                         UUID_TYPE_16,
-                         (Char_Desc_Uuid_t *)&uuid16_ref, // ??? uuid16_ref = 0x2908
-                         2, 2, report_ref,
-                         ATTR_PERMISSION_NONE, ATTR_ACCESS_READ_ONLY,
-                         GATT_DONT_NOTIFY_EVENTS, 10,
-                         CHAR_VALUE_LEN_CONSTANT, &(CustomContext.CustomRepRefHdle));
-  
+//
+// ret = aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
+//                         CustomContext.CustomRepHdle,
+//                         UUID_TYPE_16,
+//                         (Char_Desc_Uuid_t *)&uuid16_ref, // ??? uuid16_ref = 0x2908
+//                         2, 2, report_ref,
+//                         ATTR_PERMISSION_NONE, ATTR_ACCESS_READ_ONLY,
+//                         GATT_DONT_NOTIFY_EVENTS, 10,
+//                         CHAR_VALUE_LEN_CONSTANT, &(CustomContext.CustomRepRefHdle));
+// ???????, ??? uuid.Char_UUID_16 ???????????? ?????????
+ret = aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
+                             CustomContext.CustomRepHdle,
+                             UUID_TYPE_16,
+                             (Char_Desc_Uuid_t *)&uuid16_ref, // <--- ?????????? cast
+                             2, 2, report_ref,
+                             ATTR_PERMISSION_NONE, 
+                             ATTR_ACCESS_READ_ONLY,
+                             GATT_DONT_NOTIFY_EVENTS, 
+                             10, 
+                             CHAR_VALUE_LEN_CONSTANT, 
+                             &(CustomContext.CustomRepRefHdle));
+
+if (ret != BLE_STATUS_SUCCESS)
+  {
+      asm("NOP");
+    APP_DBG_MSG("  Fail   : aci_gatt_add_char command   : REP, error code: 0x%x \n\r", ret);
+  }
+  else
+  {
+      asm("NOP");
+    APP_DBG_MSG("  Success: aci_gatt_add_char command   : REP , handle = 0x%04x \n\r", CustomContext.CustomRepHdle);
+  }
   /* USER CODE END SVCCTL_Init_Service2_Char2 */
 
   /**
@@ -706,11 +696,12 @@ aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
 
   /* USER CODE BEGIN SVCCTL_InitService3 */
   /* max_attr_record to be updated if descriptors have been added */
-
+  ///@Report HID @TODO  atr long
+  max_attr_record = 10;
   /* USER CODE END SVCCTL_InitService3 */
 
-  COPY_DEVICE_INFORMATION_UUID(uuid.Char_UUID_128);
-  ret = aci_gatt_add_service(UUID_TYPE_128,
+  uuid.Char_UUID_16 = 0x180a;
+  ret = aci_gatt_add_service(UUID_TYPE_16,
                              (Service_UUID_t *) &uuid,
                              PRIMARY_SERVICE,
                              max_attr_record,
@@ -727,11 +718,11 @@ aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
   /**
    *  PnP
    */
-  COPY_PNP_UUID(uuid.Char_UUID_128);
+  uuid.Char_UUID_16 = 0x2a50;
   ret = aci_gatt_add_char(CustomContext.CustomDisHdle,
-                          UUID_TYPE_128, &uuid,
+                          UUID_TYPE_16, &uuid,
                           SizePnp,
-                          CHAR_PROP_NONE,
+                          CHAR_PROP_READ,
                           ATTR_PERMISSION_NONE,
                           GATT_NOTIFY_ATTRIBUTE_WRITE | GATT_NOTIFY_WRITE_REQ_AND_WAIT_FOR_APPL_RESP | GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
                           0x10,
@@ -770,8 +761,8 @@ aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
 
   /* USER CODE END SVCCTL_InitService4 */
 
-  COPY_BATTERY_SETTINGS_UUID(uuid.Char_UUID_128);
-  ret = aci_gatt_add_service(UUID_TYPE_128,
+  uuid.Char_UUID_16 = 0x180f;
+  ret = aci_gatt_add_service(UUID_TYPE_16,
                              (Service_UUID_t *) &uuid,
                              PRIMARY_SERVICE,
                              max_attr_record,
@@ -788,9 +779,9 @@ aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
   /**
    *  Battery_Level
    */
-  COPY_BATTERY_LEVEL_UUID(uuid.Char_UUID_128);
+  uuid.Char_UUID_16 = 0x2a19;
   ret = aci_gatt_add_char(CustomContext.CustomBasHdle,
-                          UUID_TYPE_128, &uuid,
+                          UUID_TYPE_16, &uuid,
                           SizeBat,
                           CHAR_PROP_READ | CHAR_PROP_NOTIFY,
                           ATTR_PERMISSION_NONE,

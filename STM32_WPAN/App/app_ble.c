@@ -351,7 +351,8 @@ void APP_BLE_Init(void)
   UTIL_SEQ_RegTask(1<<CFG_TASK_ADV_CANCEL_ID, UTIL_SEQ_RFU, Adv_Cancel);
 
   /* USER CODE BEGIN APP_BLE_Init_4 */
-
+  ///@TODO DIS
+DIS_Init(); // ????????? ??????????? DIS
   /* USER CODE END APP_BLE_Init_4 */
 
   /**
@@ -969,15 +970,15 @@ aci_gap_clear_security_db(); ///@HID @TODO
 );
   /* USER CODE END Ble_Hci_Gap_Gatt_Init_1*/
 
-//  ret = aci_gap_set_authentication_requirement(BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.bonding_mode,
-//                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.mitm_mode,
-//                                               CFG_SC_SUPPORT,
-//                                               CFG_KEYPRESS_NOTIFICATION_SUPPORT,
-//                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.encryptionKeySizeMin,
-//                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.encryptionKeySizeMax,
-//                                               USE_FIXED_PIN_FOR_PAIRING_FORBIDDEN, /* deprecated feature */
-//                                               0,                                   /* deprecated feature */
-//                                               CFG_IDENTITY_ADDRESS);
+  ret = aci_gap_set_authentication_requirement(BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.bonding_mode,
+                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.mitm_mode,
+                                               CFG_SC_SUPPORT,
+                                               CFG_KEYPRESS_NOTIFICATION_SUPPORT,
+                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.encryptionKeySizeMin,
+                                               BleApplicationContext.BleApplicationContext_legacy.bleSecurityParam.encryptionKeySizeMax,
+                                               USE_FIXED_PIN_FOR_PAIRING_FORBIDDEN, /* deprecated feature */
+                                               0,                                   /* deprecated feature */
+                                               CFG_IDENTITY_ADDRESS);
   if (ret != BLE_STATUS_SUCCESS)
   {
     APP_DBG_MSG("  Fail   : aci_gap_set_authentication_requirement command, result: 0x%x \n", ret);
