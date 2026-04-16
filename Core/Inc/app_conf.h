@@ -16,6 +16,8 @@
   *
   ******************************************************************************
   */
+
+
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -150,7 +152,7 @@
 #define CFG_USE_SMPS    0
 
 /* USER CODE BEGIN Generic_Parameters */
-
+#include "board_conf.h"
 /* USER CODE END Generic_Parameters */
 
 /**< specific parameters */
@@ -650,7 +652,8 @@ typedef enum
 
 /* USER CODE BEGIN Defines */
 /* ???????? ???? ???? ???? ?? ?????? ?????? ? UART */
-///@TODO DEBUG 
+#ifdef debug_uart_on
+///@TODO Joy HID DESC DEBUG
 #include <stdio.h>
 #include <string.h>
 #include "stm32wbxx_hal.h"
@@ -670,6 +673,7 @@ extern UART_HandleTypeDef huart1;
 } while (0)
 
 #define PRINT_MESG_DBG APP_DBG_MSG
+#endif 
 /* USER CODE END Defines */
 
 /******************************************************************************

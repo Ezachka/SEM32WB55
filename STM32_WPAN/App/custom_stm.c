@@ -53,6 +53,7 @@ typedef struct{
 
 extern uint16_t Connection_Handle;
 /* USER CODE BEGIN PTD */
+///@TODO Joy HID DESC
 uint8_t HID_JOYSTICK_ReportDesc[HID_JOYSTICK_REPORT_DESC_SIZE]  =
 {
      0x05, 0x01, // USAGE_PAGE (Generic Desktop)
@@ -105,8 +106,8 @@ uint8_t HID_JOYSTICK_ReportDesc[HID_JOYSTICK_REPORT_DESC_SIZE]  =
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-uint16_t SizeTx_Out = 20;
-uint16_t SizeRx_In = 20;
+uint16_t SizeTx_Out = 256;
+uint16_t SizeRx_In = 256;
 uint16_t SizeRmap = 44;
 uint16_t SizeRep = 5;
 uint16_t SizeInf = 4;

@@ -147,6 +147,7 @@ int main(void)
         if( systick_div_50hz ) 
         {
             systick_div_50hz = false;
+            BLE_tx_update();
         }
         if( systick_div_20hz ) 
         {

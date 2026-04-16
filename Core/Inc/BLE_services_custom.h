@@ -7,15 +7,23 @@ extern "C" {
     
 #include "stdlib.h"
 #include "stdint.h"
-  
-void BLE_USB_compromiss_init(void);    
+    //init
+    void BLE_USB_compromiss_init(void);    
+    //virtual com
+    void BLE_tx_update(void);
+    void BLE_rx_data(uint8_t* data, uint32_t size);
+    void BLE_tx_data(uint8_t* data, uint32_t size);
+    //HID joy
     
-void BLE_rx_data(uint8_t* data, uint32_t size);
+    typedef struct {
+        int16_t x;
+        int16_t y;
+        uint8_t btn;
+    } joy_report_t;
     
-    
-void BLE_Send_Joystick_Test(void);
+    void BLE_Send_Joystick_Test(void);
     void BLE_Joystick_Send_State(int16_t x, int16_t y, uint8_t buttons) ;
-
+    
 #ifdef __cplusplus
 }
 #endif

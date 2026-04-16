@@ -20,8 +20,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32wbxx_it.h"
+      
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+      #include "BLE_services_custom.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -309,5 +312,8 @@ void HSEM_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-
+void USB_CDC_RxHandler(uint8_t* buffer, uint32_t size)
+{
+    BLE_tx_data(buffer,size);
+}
 /* USER CODE END 1 */

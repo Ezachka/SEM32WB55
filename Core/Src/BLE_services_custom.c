@@ -3,15 +3,20 @@
 #include "custom_stm.h"
 #include "usbd_cdc_if.h"
 #include "main.h"
+#include "stdbool.h"
 /******************************************************************************/
 /******************************* DEFINITIONS **********************************/
-    #pragma pack(push, 1)
-    typedef struct {
-        int16_t x;
-        int16_t y;
-        uint8_t btn;
-    } joy_report_t;
-    #pragma pack(pop)
+struct{
+    uint8_t buff[256];
+    uint16_t size_to_sent;
+    bool ready;
+}buf_ble_tx;
+struct{
+    uint8_t buff[256];
+    uint16_t size_receive;
+    bool ready;
+}buf_ble_rx;
+
 
 joy_report_t joy_report;
 /****************************** FUNCTIONS DEF**********************************/
@@ -30,54 +35,40 @@ void BLE_USB_compromiss_init(void){
     HAL_RCCEx_CRSConfig(&crsInit);
 }
 
-//com port
+/******************************* COM PORT ************************************/
+
+void BLE_tx_update(void){
+    if (buf_ble_tx.ready){
+        Custom_STM_App_Update_Char_Variable_Length(CUSTOM_STM_TX_OUT, buf_ble_tx.buff,buf_ble_tx.size_to_sent) ;
+        buf_ble_tx.ready=false;
+    }
+    if (buf_ble_rx.ready){
+        CDC_Transmit_FS(buf_ble_rx.buff, buf_ble_rx.size_receive);
+        buf_ble_rx.ready=false;
+    }
+}
 void BLE_rx_data(uint8_t* data, uint32_t size){
-    Custom_STM_App_Update_Char_Variable_Length(CUSTOM_STM_TX_OUT, data,size) ;
-    CDC_Transmit_FS((uint8_t*)data, size);
+    memset(buf_ble_rx.buff,0x00,sizeof(buf_ble_rx.buff));
+    memcpy(buf_ble_rx.buff,data,size);
+    buf_ble_rx.size_receive=size;
+    buf_ble_rx.ready=true;
+    //    CDC_Transmit_FS((uint8_t*)data, size);
+}
+
+void BLE_tx_data(uint8_t* data, uint32_t size){
+    memset(buf_ble_tx.buff,0x00,sizeof(buf_ble_tx.buff));
+    memcpy(buf_ble_tx.buff,data,size);
+    buf_ble_tx.size_to_sent=size;
+    buf_ble_tx.ready=true;
+    //   Custom_STM_App_Update_Char_Variable_Length(CUSTOM_STM_TX_OUT, data,size) ;
 }
 
 
-///hid
-    /**
-    * @struct Report_USB_t
-    * @brief  
-    *  
-    * ????????? ??????? USB HID
-    * 
-    * 
-    */
-
-
-
-void BLE_Send_Joystick_Test(void) {
-
-    
-    // ????????? ?????? ????? ?????? ? ??????? ?????? ??????
-    joy_report.x = 500; 
-    joy_report.y = 0;
-    joy_report.btn = 0x01; // ?????? Button 1
-    
-    Custom_STM_App_Update_Char(CUSTOM_STM_REP, (uint8_t*)&joy_report);
-    
-    HAL_Delay(100);
-    
-    // ?????????? ? ????? ? ????????? ??????
-    joy_report.x = 0;
-    joy_report.btn = 0x00;
-    Custom_STM_App_Update_Char(CUSTOM_STM_REP, (uint8_t*)&joy_report);
-}
-/* ? custom_app.c ??? ??? ? ???? ????? ?????? ????????? */
-
+/******************************* HID JOY ************************************/
 void BLE_Joystick_Send_State(int16_t x, int16_t y, uint8_t buttons) {
-    // ?????: ????????? ?????? ???? ?????????, ????? ?? ???? ?????? ?????? ????????????
-
-
     joy_report.x = x;
     joy_report.y = y;
     joy_report.btn = buttons;
-
-    // CUSTOM_STM_REP — ??? ???? Char Handle ??? ??????? (UUID 0x2A4D)
-    // ?????? 5 ???? (2+2+1)
     Custom_STM_App_Update_Char(CUSTOM_STM_REP, (uint8_t*)&joy_report);
 }
 
