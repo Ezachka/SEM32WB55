@@ -266,15 +266,14 @@ void Custom_APP_Notification(Custom_App_ConnHandle_Not_evt_t *pNotification)
 void Custom_APP_Init(void)
 {
   /* USER CODE BEGIN CUSTOM_APP_Init */
-        ///@Report DEV INfO @TODO
-// 1. Manufacturer Name (CUSTOM_STM_MNF) - UUID 2A29
-  // ? ???? ???? 1218? ?????? ????? ?????.
-  uint8_t manufacturer[20] = "Joystick_Dev"; 
-  Custom_STM_App_Update_Char(CUSTOM_STM_MNF, manufacturer);
+        ///@TODO CUSTOM @HID
 
-  // 2. Battery Level (CUSTOM_STM_BAT) - UUID 2A19
-  uint8_t bat = 95;
+    uint8_t bat = 98; 
   Custom_STM_App_Update_Char(CUSTOM_STM_BAT, &bat);
+  
+    uint8_t manufacturer[] = "Alexey_Serbinov"; 
+  Custom_STM_App_Update_Char_Variable_Length(CUSTOM_STM_MNF, manufacturer, sizeof(manufacturer));
+
 
   // 3. HID Information (CUSTOM_STM_INF) - UUID 2A4A
   uint8_t hid_info[4] = {0x11, 0x01, 0x00, 0x01};

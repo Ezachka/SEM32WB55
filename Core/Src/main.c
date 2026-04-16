@@ -56,6 +56,9 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 bool test=false;
+uint8_t button_test =0 ;
+int16_t x_test =0;
+int16_t y_test =0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -124,7 +127,6 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-    printf("Hello Debug\n");
 
 
   while (1)
@@ -154,6 +156,8 @@ int main(void)
         if( systick_div_10hz )
         { 
             systick_div_10hz = false;
+                          BLE_Joystick_Send_State(x_test,y_test,button_test);
+
         }
         
         if( systick_div_5hz )
@@ -161,20 +165,12 @@ int main(void)
             systick_div_5hz = false;
         }
         
-        if( systick_div_1hz )
-        {       
-            systick_div_1hz = false;
-            HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
-            
-            
-            if(test){
-                test=false;
-                BLE_Send_Joystick_Test();
-            }else{
-                BLE_Joystick_Send_State(0,0,0);
-            }
-        }
-        
+      if( systick_div_1hz )
+      {       
+          systick_div_1hz = false;
+          HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
+      }
+      
   }
   
   /* USER CODE END 3 */

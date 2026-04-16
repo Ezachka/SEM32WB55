@@ -40,7 +40,7 @@
 /**
  * Define Advertising parameters
  */
-#define CFG_ADV_BD_ADDRESS                (0x11aabbccadef)
+#define CFG_ADV_BD_ADDRESS                (0x11aabbbbddee)
 
 /**
  * Define BD_ADDR type: define proper address. Can only be GAP_PUBLIC_ADDR (0x00) or GAP_STATIC_RANDOM_ADDR (0x01)
@@ -118,7 +118,7 @@
 /**
  * Device name configuration for Generic Access Service
  */
-#define CFG_GAP_DEVICE_NAME             "Com_Port_HID"
+#define CFG_GAP_DEVICE_NAME             "Joystick 3.0"
 #define CFG_GAP_DEVICE_NAME_LENGTH      (12)
 
 /**

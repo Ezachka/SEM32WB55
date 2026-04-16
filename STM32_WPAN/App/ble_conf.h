@@ -16,7 +16,8 @@
   *
   ******************************************************************************
   */
-///@HID @TODO
+
+///@TODO CUSTOM @HID
 #define BLE_CFG_GAMEPAD_APPEARANCE                  (0x03C4)
 
 /* USER CODE END Header */

@@ -41,7 +41,7 @@ typedef struct{
   uint16_t  CustomBasHdle;                    /**< Battery_settings handle */
   uint16_t  CustomBatHdle;                  /**< Battery_Level handle */
 /* USER CODE BEGIN Context */
-///@TODO @HID
+///@TODO CUSTOM @HID
 
   uint16_t  CustomRepRefHdle;  // Descriptor 0x2908
 
@@ -545,7 +545,7 @@ void SVCCTL_InitCustomSvc(void)
 
   /* USER CODE BEGIN SVCCTL_InitService2 */
   /* max_attr_record to be updated if descriptors have been added */
-  ///@Report HID @TODO  atr long
+  ///@TODO CUSTOM @HID
   max_attr_record = 12;
   /* USER CODE END SVCCTL_InitService2 */
 
@@ -588,25 +588,6 @@ void SVCCTL_InitCustomSvc(void)
 
   /* USER CODE BEGIN SVCCTL_Init_Service2_Char1 */
   /* Place holder for Characteristic Descriptors */
-  
-  ///@Descripror HID @TODO
-
-//  
-//ret = aci_gatt_update_char_value(CustomContext.CustomHidHdle, 
-//                             CustomContext.CustomRepHdle, 
-//                             0, HID_JOYSTICK_REPORT_DESC_SIZE, (uint8_t *)HID_JOYSTICK_ReportDesc);
-//  if (ret != BLE_STATUS_SUCCESS)
-//  {
-//      asm("NOP");
-//    APP_DBG_MSG("  Fail   : aci_gatt_add_char command   : RX, error code: 0x%x \n\r", ret);
-//  }
-//  else
-//  {
-//            asm("NOP");
-//
-//    APP_DBG_MSG("  Success: aci_gatt_add_char command   : RX , handle = 0x%04x \n\r", CustomContext.CustomRepHdle);
-//  }
-
   /* USER CODE END SVCCTL_Init_Service2_Char1 */
   /**
    *  Report
@@ -632,7 +613,7 @@ void SVCCTL_InitCustomSvc(void)
 
   /* USER CODE BEGIN SVCCTL_Init_Service2_Char2 */
   /* Place holder for Characteristic Descriptors */
-  ///@Report HID @TODO
+  ///@TODO CUSTOM @HID
    uint8_t report_ref[] = {0x01, 0x01}; // ID = 1, Type = Input
   uint16_t uuid16_ref = 0x2908;
 
@@ -650,12 +631,10 @@ void SVCCTL_InitCustomSvc(void)
 
   if (ret != BLE_STATUS_SUCCESS)
   {
-      asm("NOP");
       APP_DBG_MSG("  Fail : aci_gatt_add_char_desc: REP_REF, error: 0x%x \n\r", ret);
   }
   else
   {
-      asm("NOP");
     APP_DBG_MSG("  Success: aci_gatt_add_char command   : REP_REF , handle = 0x%04x \n\r", CustomContext.CustomRepHdle);
   }
   /* USER CODE END SVCCTL_Init_Service2_Char2 */
@@ -727,7 +706,7 @@ void SVCCTL_InitCustomSvc(void)
 
   /* USER CODE BEGIN SVCCTL_InitService3 */
   /* max_attr_record to be updated if descriptors have been added */
-  ///@Report HID @TODO  atr long
+  ///@TODO CUSTOM @HID
   max_attr_record = 5;
   /* USER CODE END SVCCTL_InitService3 */
 
