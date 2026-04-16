@@ -615,29 +615,29 @@ void SVCCTL_InitCustomSvc(void)
   /* USER CODE BEGIN SVCCTL_Init_Service2_Char2 */
   /* Place holder for Characteristic Descriptors */
   ///@TODO CUSTOM @HID
-   uint8_t report_ref[] = {0x01, 0x01}; // ID = 1, Type = Input
-  uint16_t uuid16_ref = 0x2908;
-
-  ret = aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
-                               CustomContext.CustomRepHdle,
-                               UUID_TYPE_16,
-                               (Char_Desc_Uuid_t *)&uuid16_ref,
-                               2, 2, report_ref,
-                               ATTR_PERMISSION_NONE, 
-                               ATTR_ACCESS_READ_ONLY,
-                               GATT_DONT_NOTIFY_EVENTS, 
-                               10, 
-                               CHAR_VALUE_LEN_CONSTANT, 
-                               &(CustomContext.CustomRepRefHdle));
-
-  if (ret != BLE_STATUS_SUCCESS)
-  {
-      APP_DBG_MSG("  Fail : aci_gatt_add_char_desc: REP_REF, error: 0x%x \n\r", ret);
-  }
-  else
-  {
-    APP_DBG_MSG("  Success: aci_gatt_add_char command   : REP_REF , handle = 0x%04x \n\r", CustomContext.CustomRepHdle);
-  }
+//   uint8_t report_ref[] = {0x01, 0x01}; // ID = 1, Type = Input
+//  uint16_t uuid16_ref = 0x2908;
+//
+//  ret = aci_gatt_add_char_desc(CustomContext.CustomHidHdle,
+//                               CustomContext.CustomRepHdle,
+//                               UUID_TYPE_16,
+//                               (Char_Desc_Uuid_t *)&uuid16_ref,
+//                               2, 2, report_ref,
+//                               ATTR_PERMISSION_NONE, 
+//                               ATTR_ACCESS_READ_ONLY,
+//                               GATT_DONT_NOTIFY_EVENTS, 
+//                               10, 
+//                               CHAR_VALUE_LEN_CONSTANT, 
+//                               &(CustomContext.CustomRepRefHdle));
+//
+//  if (ret != BLE_STATUS_SUCCESS)
+//  {
+//      APP_DBG_MSG("  Fail : aci_gatt_add_char_desc: REP_REF, error: 0x%x \n\r", ret);
+//  }
+//  else
+//  {
+//    APP_DBG_MSG("  Success: aci_gatt_add_char command   : REP_REF , handle = 0x%04x \n\r", CustomContext.CustomRepHdle);
+//  }
   /* USER CODE END SVCCTL_Init_Service2_Char2 */
   /**
    *  HID_Information

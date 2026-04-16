@@ -66,6 +66,7 @@ void BLE_tx_data(uint8_t* data, uint32_t size){
 
 /******************************* HID JOY ************************************/
 void BLE_Joystick_Send_State(int16_t x, int16_t y, uint8_t buttons) {
+    //joy_report.reportId = 0x01;
     joy_report.x = x;
     joy_report.y = y;
     joy_report.btn = buttons;
