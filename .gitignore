@@ -57,8 +57,7 @@ thumbs.db
 
 
 ### STM32CubeMX Generated ###
-Drivers/
-Middlewares/
+
 # IAR project "Debug" directory
 Debug/
 

@@ -157,7 +157,7 @@ int main(void)
         if( systick_div_10hz )
         { 
             systick_div_10hz = false;
-                          BLE_Joystick_Send_State(x_test,y_test,button_test);
+
 
         }
         
@@ -170,6 +170,7 @@ int main(void)
       {       
           systick_div_1hz = false;
           HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
+                                    BLE_Joystick_Send_State(x_test,y_test,button_test);
       }
       
   }

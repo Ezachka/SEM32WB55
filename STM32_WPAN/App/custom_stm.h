@@ -94,10 +94,7 @@ typedef struct
 } Custom_STM_App_Notification_evt_t;
 
 /* USER CODE BEGIN ET */
-///@TODO Joy HID DESC
-#define HID_JOYSTICK_REPORT_DESC_SIZE              44U    
 
-extern uint8_t HID_JOYSTICK_ReportDesc[HID_JOYSTICK_REPORT_DESC_SIZE];
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

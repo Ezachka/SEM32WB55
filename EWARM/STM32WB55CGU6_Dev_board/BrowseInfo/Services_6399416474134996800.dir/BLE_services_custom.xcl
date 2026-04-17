@@ -1,4 +1,4 @@
-"D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Core\Src\BLE_services_custom.c"
+"D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Core\Services\BLE_services_custom.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
@@ -9,7 +9,7 @@ D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM\STM32WB55CGU
 -o
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM\STM32WB55CGU6_Dev_board\BrowseInfo\Services_6399416474134996800.dir\BLE_services_custom.pbi
 -I
-D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Core\Src
+D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Core\Services
 -I
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Core/Inc
 -I
@@ -56,6 +56,8 @@ D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Middlewar
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Drivers/CMSIS/Include
 -I
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Utilities/sequencer
+-I
+D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\EWARM/../Core/Services
 -I
 C:\Program Files\IAR Systems\Embedded Workbench 9.2\arm\inc\c\aarch32
 -I
@@ -108,6 +110,8 @@ D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Middlewares\ST\STM
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Drivers\CMSIS\Include
 -I
 D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Utilities\sequencer
+-I
+D:\Serbinov_Alexey\Projects_prog\Mine\STM32WB55CGU6_Dev_board\Core\Services
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0

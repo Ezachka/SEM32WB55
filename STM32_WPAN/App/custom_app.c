@@ -84,8 +84,6 @@ uint16_t Connection_Handle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* IO_COM */
-static void Custom_Tx_out_Update_Char(void);
-static void Custom_Tx_out_Send_Notification(void);
 /* Human_Interface_Device */
 static void Custom_Rep_Update_Char(void);
 static void Custom_Rep_Send_Notification(void);
@@ -306,44 +304,6 @@ void Custom_APP_Init(void)
  *************************************************************/
 
 /* IO_COM */
-__USED void Custom_Tx_out_Update_Char(void) /* Property Read */
-{
-  uint8_t updateflag = 0;
-
-  /* USER CODE BEGIN Tx_out_UC_1*/
-
-  /* USER CODE END Tx_out_UC_1*/
-
-  if (updateflag != 0)
-  {
-    Custom_STM_App_Update_Char(CUSTOM_STM_TX_OUT, (uint8_t *)UpdateCharData);
-  }
-
-  /* USER CODE BEGIN Tx_out_UC_Last*/
-
-  /* USER CODE END Tx_out_UC_Last*/
-  return;
-}
-
-void Custom_Tx_out_Send_Notification(void) /* Property Notification */
-{
-  uint8_t updateflag = 0;
-
-  /* USER CODE BEGIN Tx_out_NS_1*/
-
-  /* USER CODE END Tx_out_NS_1*/
-
-  if (updateflag != 0)
-  {
-    Custom_STM_App_Update_Char(CUSTOM_STM_TX_OUT, (uint8_t *)NotifyCharData);
-  }
-
-  /* USER CODE BEGIN Tx_out_NS_Last*/
-
-  /* USER CODE END Tx_out_NS_Last*/
-
-  return;
-}
 
 /* Human_Interface_Device */
 __USED void Custom_Rep_Update_Char(void) /* Property Read */

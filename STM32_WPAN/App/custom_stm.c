@@ -43,7 +43,7 @@ typedef struct{
 /* USER CODE BEGIN Context */
 ///@TODO CUSTOM @HID
 
-  uint16_t  CustomRepRefHdle;  // Descriptor 0x2908
+ // uint16_t  CustomRepRefHdle;  // Descriptor 0x2908
 
   
   /* Place holder for Characteristic Descriptors Handle*/
@@ -53,7 +53,10 @@ typedef struct{
 
 extern uint16_t Connection_Handle;
 /* USER CODE BEGIN PTD */
-///@TODO Joy HID DESC
+#define HID_JOYSTICK_REPORT_DESC_SIZE              44U    
+
+
+///@TODO CUSTOM @HID 
 uint8_t HID_JOYSTICK_ReportDesc[HID_JOYSTICK_REPORT_DESC_SIZE]  =
 {
      0x05, 0x01, // USAGE_PAGE (Generic Desktop)
@@ -456,10 +459,10 @@ void SVCCTL_InitCustomSvc(void)
 
   /* USER CODE BEGIN SVCCTL_InitService1 */
   /* max_attr_record to be updated if descriptors have been added */
-
+  max_attr_record = 8;
   /* USER CODE END SVCCTL_InitService1 */
 
-  uuid.Char_UUID_16 = 0x1234;
+  uuid.Char_UUID_16 = 0xffe0;
   ret = aci_gatt_add_service(UUID_TYPE_16,
                              (Service_UUID_t *) &uuid,
                              PRIMARY_SERVICE,
@@ -477,7 +480,7 @@ void SVCCTL_InitCustomSvc(void)
   /**
    *  Transmit_to_phone
    */
-  uuid.Char_UUID_16 = 0x1111;
+  uuid.Char_UUID_16 = 0xffe1;
   ret = aci_gatt_add_char(CustomContext.CustomComHdle,
                           UUID_TYPE_16, &uuid,
                           SizeTx_Out,
@@ -503,7 +506,7 @@ void SVCCTL_InitCustomSvc(void)
   /**
    *  Receive_from_phone
    */
-  uuid.Char_UUID_16 = 0x2222;
+  uuid.Char_UUID_16 = 0xffe2;
   ret = aci_gatt_add_char(CustomContext.CustomComHdle,
                           UUID_TYPE_16, &uuid,
                           SizeRx_In,
